@@ -27,9 +27,9 @@ def main():
             if character == ')':
                 print('RIGHT_PAREN ) null')
             if character == '{':
-                print('LEFT_BRACE ) null')
+                print('LEFT_BRACE { null')
             if character == '}':
-                print('RIGHT_BRACE ) null')
+                print('RIGHT_BRACE } null')
         print("EOF  null")
 
 
