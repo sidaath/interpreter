@@ -21,7 +21,11 @@ def main():
 
 
     if file_contents:
-        raise NotImplementedError("Scanner not implemented")
+        for character in file_contents:
+            if character == '(':
+                print('LEFT_PAREN ( null')
+            if character == ')':
+                print('LEFT_PAREN ) null')
     else:
         print("EOF  null") # Placeholder, remove this line when implementing the scanner
 
