@@ -47,46 +47,46 @@ def main():
                 print('SEMICOLON ; null')
             if character == '@':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: @")
+                print(f"[line {line}] Error: Unexpected character: @", file=sys.stderr)
             if character == '#':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: #")
+                print(f"[line {line}] Error: Unexpected character: #", file=sys.stderr)
             if character == '$':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: $")
+                print(f"[line {line}] Error: Unexpected character: $", file=sys.stderr)
             if character == '%':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: %")
+                print(f"[line {line}] Error: Unexpected character: %", file=sys.stderr)
             if character == '^':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: ^")
+                print(f"[line {line}] Error: Unexpected character: ^", file=sys.stderr)
             if character == '&':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: &")
+                print(f"[line {line}] Error: Unexpected character: &", file=sys.stderr)
             if character == '!':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: !")
+                print(f"[line {line}] Error: Unexpected character: !", file=sys.stderr)
             if character == '`':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: `")
+                print(f"[line {line}] Error: Unexpected character: `", file=sys.stderr)
             if character == '~':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: ~")
+                print(f"[line {line}] Error: Unexpected character: ~", file=sys.stderr)
             if character == '[':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: [")
+                print(f"[line {line}] Error: Unexpected character: [", file=sys.stderr)
             if character == ']':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: ]")
+                print(f"[line {line}] Error: Unexpected character: ]", file=sys.stderr)
             if character == '|':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: |")
+                print(f"[line {line}] Error: Unexpected character: |", file=sys.stderr)
             if character == ':':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: :")
+                print(f"[line {line}] Error: Unexpected character: :", file=sys.stderr)
             if character == '?':
                 errors = True
-                print(f"[line {line}] Error: Unexpected character: ?")
+                print(f"[line {line}] Error: Unexpected character: ?", file=sys.stderr)
 
         print("EOF  null")
     else:
