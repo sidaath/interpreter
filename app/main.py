@@ -21,6 +21,7 @@ def main():
 
 
     if file_contents:
+        line : int = 1
         for character in file_contents:
             if character == '(':
                 print('LEFT_PAREN ( null')
@@ -42,6 +43,35 @@ def main():
                 print('MINUS - null')
             if character == ';':
                 print('SEMICOLON ; null')
+            if character == '@':
+                print(f"[line {line}] Error: Unexpected character: @")
+            if character == '#':
+                print(f"[line {line}] Error: Unexpected character: #")
+            if character == '$':
+                print(f"[line {line}] Error: Unexpected character: $")
+            if character == '%':
+                print(f"[line {line}] Error: Unexpected character: %")
+            if character == '^':
+                print(f"[line {line}] Error: Unexpected character: ^")
+            if character == '&':
+                print(f"[line {line}] Error: Unexpected character: &")
+            if character == '!':
+                print(f"[line {line}] Error: Unexpected character: !")
+            if character == '`':
+                print(f"[line {line}] Error: Unexpected character: `")
+            if character == '~':
+                print(f"[line {line}] Error: Unexpected character: ~")
+            if character == '[':
+                print(f"[line {line}] Error: Unexpected character: [")
+            if character == ']':
+                print(f"[line {line}] Error: Unexpected character: ]")
+            if character == '|':
+                print(f"[line {line}] Error: Unexpected character: |")
+            if character == ':':
+                print(f"[line {line}] Error: Unexpected character: :")
+            if character == '?':
+                print(f"[line {line}] Error: Unexpected character: ?")
+                
 
         print("EOF  null")
     else:
