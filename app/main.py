@@ -26,8 +26,7 @@ def main():
                 print('LEFT_PAREN ( null')
             if character == ')':
                 print('LEFT_PAREN ) null')
-            if character == '':
-                print("EOF  null")
+        print("EOF  null")
     else:
         print("EOF  null") # Placeholder, remove this line when implementing the scanner
 
