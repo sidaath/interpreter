@@ -26,9 +26,12 @@ def main():
                 print('LEFT_PAREN ( null')
             if character == ')':
                 print('RIGHT_PAREN ) null')
+            if character == '{':
+                print('LEFT_BRACE ) null')
+            if character == '}':
+                print('RIGHT_BRACE ) null')
         print("EOF  null")
-    else:
-        print("EOF  null") # Placeholder, remove this line when implementing the scanner
+
 
 
 if __name__ == "__main__":
