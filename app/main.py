@@ -31,6 +31,8 @@ def main():
             if character == '}':
                 print('RIGHT_BRACE } null')
         print("EOF  null")
+    else:
+        print("EOF  null")
 
 
 
