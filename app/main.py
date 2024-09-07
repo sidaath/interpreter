@@ -30,6 +30,15 @@ def main():
                 print('LEFT_BRACE { null')
             if character == '}':
                 print('RIGHT_BRACE } null')
+            if character == '*':
+                print('STAR * null')
+            if character == '.':
+                print('DOT . null')
+            if character == ',':
+                print('COMMA , null')
+            if character == '+':
+                print('PLUS + null')
+
         print("EOF  null")
     else:
         print("EOF  null")
