@@ -19,6 +19,8 @@ def main():
     with open(filename) as file:
         file_contents = file.read()
 
+    errors : bool = False
+
 
     if file_contents:
         line : int = 1
@@ -44,38 +46,56 @@ def main():
             if character == ';':
                 print('SEMICOLON ; null')
             if character == '@':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: @")
             if character == '#':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: #")
             if character == '$':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: $")
             if character == '%':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: %")
             if character == '^':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: ^")
             if character == '&':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: &")
             if character == '!':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: !")
             if character == '`':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: `")
             if character == '~':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: ~")
             if character == '[':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: [")
             if character == ']':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: ]")
             if character == '|':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: |")
             if character == ':':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: :")
             if character == '?':
+                errors = True
                 print(f"[line {line}] Error: Unexpected character: ?")
-                
 
         print("EOF  null")
     else:
         print("EOF  null")
+
+    if errors:
+        exit(65)
+    else:
+        exit(0)
 
 
 
