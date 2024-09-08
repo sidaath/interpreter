@@ -1,0 +1,7 @@
+echo "test line"
+cat test.lox
+
+echo " "
+
+echo "output"
+python main.py tokenize test.lox
