@@ -94,7 +94,7 @@ def main():
                 else:
                     #second '/', rest of line is a comment, stop reading line (skip line when scanning multi lines)
                     while character != '\n':
-                        item: tuple[int, str] = next(iterator)
+                        item: tuple[int, str] = next(iterator,(0,'\n'))
                         character = item[1]
                     line += 1
             else:
