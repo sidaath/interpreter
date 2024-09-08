@@ -53,7 +53,7 @@ def main():
                     print('EQUAL_EQUAL == null')
                     eq_op_count = 0
                     continue
-                if file_contents[index + 1] == '=':
+                if index + 1 < len(file_contents) and file_contents[index + 1] == '=':
                     eq_op_count = 1
                 else:
                     print('EQUAL = null')
