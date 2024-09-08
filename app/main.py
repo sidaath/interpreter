@@ -29,12 +29,20 @@ def main():
         #validity of current '/' token while tokenizing
         slash_operator_valid : bool = True
 
+        #maintain state of whether inside quotes (true) or outside quotes (false)
+        string_open : bool  = False
+
+        #store characters of string
+        string_array : list[str]    = []
+
         #track line number in loop
         line : int = 1
 
         iterator = enumerate(file_contents)
         for index,character in iterator:
-            if character == '\n':
+            if string_open and character !='"':
+                string_array.append(character)
+            elif character == '\n':
                 line += 1
             elif character == '\t' or character == ' ':
                 continue
@@ -97,9 +105,18 @@ def main():
                         item: tuple[int, str] = next(iterator,(0,'\n'))
                         character = item[1]
                     line += 1
+            elif character == '"':
+                if string_open:
+                    string_open = False
+                    string : str = "".join(string_array)
+                    print(f"STRING \"{string}\" {string}")
+                else:
+                    string_open = True
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
+        if string_open:
+            print(f'[line {line}] Error: Unterminated string.')
         print("EOF  null")
     else:
         print("EOF  null")
