@@ -116,7 +116,8 @@ def main():
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
         if string_open:
-            print(f'[line {line}] Error: Unterminated string.')
+            print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
+            errors = True
         print("EOF  null")
     else:
         print("EOF  null")
