@@ -1,3 +1,1 @@
-"this is first string
-goes to second line
-and third
+("hello"+"world") != "other_string"

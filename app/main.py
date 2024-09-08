@@ -110,6 +110,7 @@ def main():
                     string_open = False
                     string : str = "".join(string_array)
                     print(f"STRING \"{string}\" {string}")
+                    string_array.clear()
                 else:
                     string_open = True
             else:
