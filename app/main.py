@@ -32,7 +32,8 @@ def main():
         #track line number in loop
         line : int = 1
 
-        for index,character in enumerate(file_contents):
+        iterator = enumerate(file_contents)
+        for index,character in iterator:
             if character == '\n':
                 line += 1
             elif character == '\t' or character == ' ':
@@ -92,7 +93,9 @@ def main():
                         print('SLASH / null')
                 else:
                     #second '/', rest of line is a comment, stop reading line (skip line when scanning multi lines)
-                    break
+                    while character != '\n':
+                        item: tuple[int, str] = next(iterator, (0,'\n'))
+                        character = item[1]
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
