@@ -47,6 +47,8 @@ def main():
                 print('MINUS - null')
             if character == ';':
                 print('SEMICOLON ; null')
+            if character =='':
+                continue
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
