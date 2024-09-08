@@ -26,6 +26,9 @@ def main():
         #validity of current '=' token while tokenizing
         eq_operator_valid : bool    = True
 
+        #validity of current '/' token while tokenizing
+        slash_operator_valid : bool = True
+
         #track line number in loop
         line : int = 1
 
@@ -79,6 +82,15 @@ def main():
                     eq_operator_valid = False
                 else:
                     print('GREATER > null')
+            elif character == '/':
+                if slash_operator_valid:
+                    if index+1 < len(file_contents) and file_contents[index+1] =='/':
+                        slash_operator_valid = False
+                    else:
+                        print('SLASH / null')
+                else:
+                    #second '/', rest of line is a comment, stop reading line (skip line when scanning multi lines)
+                    break
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
