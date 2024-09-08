@@ -20,11 +20,12 @@ def main():
         file_contents = file.read()
 
     errors : bool = False
+    eq_op_count : int = 0
 
 
     if file_contents:
         line : int = 1
-        for character in file_contents:
+        for index,character in enumerate(file_contents):
             if character == '\n':
                 line += 1
             elif character == '(':
@@ -47,10 +48,18 @@ def main():
                 print('MINUS - null')
             elif character == ';':
                 print('SEMICOLON ; null')
+            elif character == '=':
+                if eq_op_count == 1:
+                    print('EQUAL_EQUAL == null')
+                    eq_op_count = 0
+                    continue
+                if file_contents[index + 1] == '=':
+                    eq_op_count = 1
+                else:
+                    print('EQUAL = null')
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
-
         print("EOF  null")
     else:
         print("EOF  null")
