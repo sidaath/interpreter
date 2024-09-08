@@ -123,6 +123,7 @@ def main():
                 else:
                     string_open = True
             elif character.isdigit() or character == '.':
+                #test:wq
                 if character == '.':
                     number_decimal = True
                 if number_open:
