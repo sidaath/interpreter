@@ -28,7 +28,7 @@ def main():
 
         #track line number in loop
         line : int = 1
-        
+
         for index,character in enumerate(file_contents):
             if character == '\n':
                 line += 1
@@ -67,6 +67,18 @@ def main():
                     eq_operator_valid = False
                 else:
                     print('BANG ! null')
+            elif character == '<':
+                if index+1 < len(file_contents) and file_contents[index+1] == '=':
+                    print('LESS_EQUAL <= null')
+                    eq_operator_valid = False
+                else:
+                    print('LESS < null')
+            elif character == '>':
+                if index+1 < len(file_contents) and file_contents[index+1] == '=':
+                    print('GREATER_EQUAL >= null')
+                    eq_operator_valid = False
+                else:
+                    print('GREATER > null')
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
