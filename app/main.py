@@ -148,13 +148,13 @@ def main():
                         string = ''.join(number_array)
                         print(f"NUMBER {string} {string}.0")
                         number_array.clear()
-                elif index+1 > len(file_contents):
+                elif index+1 >= len(file_contents):
                     #end of file
                     string = ''.join(number_array)
                     if number_decimal:
                         print(f"NUMBER {string} {string}")
                     else:
-                        print(f"NUMBER {string} {string}.0")
+                        print(f"NUMBER {string} {string}.0") 
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
