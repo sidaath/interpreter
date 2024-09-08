@@ -20,11 +20,15 @@ def main():
         file_contents = file.read()
 
     errors : bool = False
-    eq_op_count : int = 0
-
+    
 
     if file_contents:
+        #validity of current '=' token while tokenizing
+        eq_operator_valid : bool    = True
+
+        #track line number in loop
         line : int = 1
+        
         for index,character in enumerate(file_contents):
             if character == '\n':
                 line += 1
@@ -49,14 +53,20 @@ def main():
             elif character == ';':
                 print('SEMICOLON ; null')
             elif character == '=':
-                if eq_op_count == 1:
-                    print('EQUAL_EQUAL == null')
-                    eq_op_count = 0
-                    continue
-                if index + 1 < len(file_contents) and file_contents[index + 1] == '=':
-                    eq_op_count = 1
+                if eq_operator_valid:
+                    if index+1 < len(file_contents) and file_contents[index+1] == '=':
+                        print('EQUAL_EQUAL == null')
+                        eq_operator_valid = False
+                    else:
+                        print('EQUAL = null')
                 else:
-                    print('EQUAL = null')
+                    eq_operator_valid = True
+            elif character == '!':
+                if index+1 < len(file_contents) and file_contents[index+1] == '=':
+                    print('BANG_EQUAL != null')
+                    eq_operator_valid = False
+                else:
+                    print('BANG ! null')
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
