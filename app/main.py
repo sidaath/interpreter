@@ -30,10 +30,19 @@ def main():
         slash_operator_valid : bool = True
 
         #maintain state of whether inside quotes (true) or outside quotes (false)
-        string_open : bool  = False
+        string_open : bool          = False
 
         #store characters of string
         string_array : list[str]    = []
+
+        #maintain state of whether inside number literal (true) or not (false)
+        number_open : bool          = False
+
+        #maintain if decimal places included in number literal - false (no decimal in literal)
+        number_decimal : bool       = False
+
+        #store digits of number
+        number_array : list[str]    = []
 
         #track line number in loop
         line : int = 1
@@ -56,7 +65,7 @@ def main():
                 print('RIGHT_BRACE } null')
             elif character == '*':
                 print('STAR * null')
-            elif character == '.':
+            elif character == '.' and not number_open:
                 print('DOT . null')
             elif character == ',':
                 print('COMMA , null')
@@ -113,9 +122,34 @@ def main():
                     string_array.clear()
                 else:
                     string_open = True
+            elif character.isdigit() or character == '.':
+                if character == '.':
+                    number_decimal = True
+                if number_open:
+                    number_array.append(character)
+                else:
+                    number_open = True
+                    number_array.append(character)
+
+                if index+1 < len(file_contents) and file_contents[index+1].isdigit() == False:
+                    next_character : str = file_contents[index+1]
+                    if next_character == '.':
+                        if number_decimal:
+                            #number literal already has decimal points, therefore this is DOT -> 34.55 '.'(this dot)
+                            # no need to handle else -> next iteration will add it (assuming number literal validity checked later)
+                            number_open = False
+                            string = ''.join(number_array)
+                            print(f"NUMBER {string} {string}")
+                            number_array.clear()
+                    else:
+                        number_open = False
+                        string = ''.join(number_array)
+                        print(f"NUMBER {string} {string}.0")
+                        number_array.clear()      
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
+
         if string_open:
             print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
             errors = True
