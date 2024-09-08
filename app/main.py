@@ -27,28 +27,26 @@ def main():
         for character in file_contents:
             if character == '\n':
                 line += 1
-            if character == '(':
+            elif character == '(':
                 print('LEFT_PAREN ( null')
-            if character == ')':
+            elif character == ')':
                 print('RIGHT_PAREN ) null')
-            if character == '{':
+            elif character == '{':
                 print('LEFT_BRACE { null')
-            if character == '}':
+            elif character == '}':
                 print('RIGHT_BRACE } null')
-            if character == '*':
+            elif character == '*':
                 print('STAR * null')
-            if character == '.':
+            elif character == '.':
                 print('DOT . null')
-            if character == ',':
+            elif character == ',':
                 print('COMMA , null')
-            if character == '+':
+            elif character == '+':
                 print('PLUS + null')
-            if character == '-':
+            elif character == '-':
                 print('MINUS - null')
-            if character == ';':
+            elif character == ';':
                 print('SEMICOLON ; null')
-            if character =='':
-                continue
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
