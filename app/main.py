@@ -35,6 +35,8 @@ def main():
         for index,character in enumerate(file_contents):
             if character == '\n':
                 line += 1
+            elif character == '\t' or character == ' ':
+                continue
             elif character == '(':
                 print('LEFT_PAREN ( null')
             elif character == ')':
