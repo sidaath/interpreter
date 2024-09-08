@@ -94,8 +94,9 @@ def main():
                 else:
                     #second '/', rest of line is a comment, stop reading line (skip line when scanning multi lines)
                     while character != '\n':
-                        item: tuple[int, str] = next(iterator, (0,'\n'))
+                        item: tuple[int, str] = next(iterator)
                         character = item[1]
+                    line += 1
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
