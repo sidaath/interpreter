@@ -123,7 +123,7 @@ def main():
                 else:
                     string_open = True
             elif character.isdigit() or character == '.':
-                print('in number block, character = ',character)
+                #print('in number block, character = ',character)
                 #test:wq
                 if character == '.':
                     number_decimal = True
@@ -147,7 +147,14 @@ def main():
                         number_open = False
                         string = ''.join(number_array)
                         print(f"NUMBER {string} {string}.0")
-                        number_array.clear()      
+                        number_array.clear()
+                else:
+                    #end of file
+                    string = ''.join(number_array)
+                    if number_decimal:
+                        print(f"NUMBER {string} {string}")
+                    else:
+                        print(f"NUMBER {string} {string}.0")
             else:
                 errors = True
                 print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
