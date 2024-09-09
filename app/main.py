@@ -57,6 +57,7 @@ def main():
 
         tokenize : bool = True
 
+        
         while tokenize:
             token : tuple[int, str] | bool = next(iterator, False)
             if type(token) == bool:
@@ -87,32 +88,13 @@ def main():
                 elif character == '.' and not number_open:
                     print('DOT . null')
                 elif character == '=':
-                    if eq_operator_valid:
-                        if index+1 < len(file_contents) and file_contents[index+1] == '=':
-                            print('EQUAL_EQUAL == null')
-                            eq_operator_valid = False
-                        else:
-                            print('EQUAL = null')
-                    else:
-                        eq_operator_valid = True
+                    print(handle_eq_literal(index, iterator, file_contents))
                 elif character == '!':
-                    if index+1 < len(file_contents) and file_contents[index+1] == '=':
-                        print('BANG_EQUAL != null')
-                        eq_operator_valid = False
-                    else:
-                        print('BANG ! null')
+                    print(handle_bang_literal(index, iterator, file_contents))
                 elif character == '<':
-                    if index+1 < len(file_contents) and file_contents[index+1] == '=':
-                        print('LESS_EQUAL <= null')
-                        eq_operator_valid = False
-                    else:
-                        print('LESS < null')
+                    print(handle_ineq(index, iterator, character, file_contents))
                 elif character == '>':
-                    if index+1 < len(file_contents) and file_contents[index+1] == '=':
-                        print('GREATER_EQUAL >= null')
-                        eq_operator_valid = False
-                    else:
-                        print('GREATER > null')
+                    print(handle_ineq(index, iterator, character, file_contents))
                 elif character == '/':
                     if slash_operator_valid:
                         if index+1 < len(file_contents) and file_contents[index+1] =='/':
@@ -182,9 +164,62 @@ def main():
         exit(0)
 
 
-# def handle_string_literals():
+#check if next character exists
+def is_next(current_index : int, stream : str)->bool:
+    if current_index + 1 < len(stream):
+        return True
+    else:
+        return False
 
 
+#handle '=' sign and '==' sign
+def handle_eq_literal(index : int, iterator:enumerate[str], stream : str) -> str:
+    
+    if not is_next(index, stream):
+        return "EQUAL = null"
+    else:
+        #is_next() guarantees there is a next character
+        if stream[index+1] == '=':
+            next(iterator)
+            return "EQUAL_EQUAL == null"
+        else:
+            return "EQUAL = null"
+        
+#handle '!'
+def handle_bang_literal(index : int, iterator:enumerate[str], stream : str) -> str:
+    if not is_next(index, stream):
+        return "BANG ! null"
+    else:
+        #is_next() guarantees there is a next character
+        if stream[index+1] == '=':
+            next(iterator)
+            return "BANG_EQUAL != null"
+        else:
+            return "BANG ! null"
+
+#handle inequality operators
+def handle_ineq(index : int, iterator : enumerate[str], character:str, stream : str)->str:
+    if not (character == '>' or character == '<'):
+        return ""
+    if not is_next(index, stream):
+        if character == '<':
+            return "LESS < null"
+        else:
+            return "GREATER > null"
+    else:
+        #is_next() has guranteed next character exists
+        if not stream[index+1] == '=':
+            if character == '<':
+                return "LESS < null"
+            else:
+                return "GREATER > null"
+        else:
+            if character == '<':
+                next(iterator)
+                return "LESS_EQUAL <= null"
+            else:
+                next(iterator)
+                return "GREATER_EQUAL >= null"
 
 
 def is_literal(character : str) -> bool:
