@@ -61,7 +61,6 @@ def main():
             token : tuple[int, str] | bool = next(iterator, False)
             if type(token) == bool:
                 tokenize = False
-                print('EOF  null')
             else:
                 character : str = token[1]
                 index : int       = token[0]
@@ -171,17 +170,21 @@ def main():
                     errors = True
                     print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
 
-            if string_open:
-                print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
-                errors = True
-                print("EOF  null")
-    else:
-        print("EOF  null")
+        if string_open:
+            print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
+            errors = True
+
+    print("EOF  null")
 
     if errors:
         exit(65)
     else:
         exit(0)
+
+
+# def handle_string_literals():
+
+
 
 
 def is_literal(character : str) -> bool:
