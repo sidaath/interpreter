@@ -67,16 +67,7 @@ def main():
                 index : int       = token[0]
                 
                 if character == '_' or character.isalpha():
-                    identifier_array.append(character)
-                    if index+1 < len(file_contents):
-                        next_char:str = file_contents[index+1]
-                        if not (next_char.isalpha() or next_char  == '_') or next_char==' ':
-                            identifier : str = ''.join(identifier_array)
-                            print(f"IDENTIFIER {identifier} null")
-                            identifier_array.clear()
-                    if index+1 >= len(file_contents):
-                        identifier : str = ''.join(identifier_array)
-                        print(f"IDENTIFIER {identifier} null")
+                    print(handle_identifier(index, iterator, character, file_contents))
                 elif character == '\n':
                     line += 1
                 elif not identifier_open and (character == '\t' or character == ' '):
@@ -217,8 +208,23 @@ def handle_num(index : int, iterator : enumerate[str], character : str, stream :
                 in_number = False
 
         if decimal:
-            number : str = ''.join(num_arr)
-            return "NUMBER "+number+" "+number
+            number_lexeme : str = ''.join(num_arr)
+
+            n : int = len(num_arr) - 1
+            
+            while n > 0:
+                if num_arr[n] == '0':
+                    num_arr.pop()
+                    n = -1
+                elif num_arr[n] == '.':
+                    num_arr.append('0')
+                    n = 0
+                else:
+                    n = 0
+
+            
+            number_literal : str = ''.join(num_arr)
+            return "NUMBER "+number_lexeme+" "+number_literal
         else:
             number : str = ''.join(num_arr)
             return "NUMBER "+number+" "+number+".0"
@@ -260,6 +266,35 @@ def handle_string(index : int, iterator : enumerate[str], character : str, strea
     else:
         string : str = ''.join(string_arr)
         return (f"STRING \"{string}\" {string}", 0, line)
+    
+
+#handle identifiers - _123az, abc, space seperated
+def handle_identifier(index : int, iterator : enumerate[str], character : str, stream : str):
+    in_identifier : bool        = True
+    identifier_arr: list[str]   = []
+
+    if not (character == '_' or character.isalpha()):
+        return f"FUNCTION handle_identifier() called with invalid argument {character}"
+
+    if not is_next(index, stream):
+        return f"IDENTIFIER {character} null"
+    else:
+        identifier_arr.append(character)
+        while in_identifier:
+            if is_next(index, stream):
+                next_char : str = stream[index + 1]
+                if not (next_char == '_' or next_char.isalnum()):
+                    in_identifier = False
+                else:
+                    _next = next(iterator, (len(stream),''))
+                    character = _next[1]
+                    index     = _next[0]
+                    identifier_arr.append(character)
+            else:
+                in_identifier = False
+
+    string: str = ''.join(identifier_arr)
+    return f"IDENTIFIER {string} null"
 
 
 def is_literal(character : str) -> bool:
