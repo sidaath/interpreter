@@ -115,39 +115,8 @@ def main():
                         string_array.clear()
                     else:
                         string_open = True
-                elif character.isdigit() or character == '.':
-                    #print('in number block, character = ',character)
-                    #test:wq
-                    if character == '.':
-                        number_decimal = True
-                    if number_open:
-                        number_array.append(character)
-                    else:
-                        number_open = True
-                        number_array.append(character)
-
-                    if index+1 < len(file_contents) and file_contents[index+1].isdigit() == False:
-                        next_character : str = file_contents[index+1]
-                        if next_character == '.':
-                            if number_decimal:
-                                #number literal already has decimal points, therefore this is DOT -> 34.55 '.'(this dot)
-                                # no need to handle else -> next iteration will add it (assuming number literal validity checked later)
-                                number_open = False
-                                string = ''.join(number_array)
-                                print(f"NUMBER {string} {string}")
-                                number_array.clear()
-                        else:
-                            number_open = False
-                            string = ''.join(number_array)
-                            print(f"NUMBER {string} {string}.0")
-                            number_array.clear()
-                    elif index+1 >= len(file_contents):
-                        #end of file
-                        string = ''.join(number_array)
-                        if number_decimal:
-                            print(f"NUMBER {string} {string}")
-                        else:
-                            print(f"NUMBER {string} {string}.0") 
+                elif character.isdigit():
+                    print(handle_num(index, iterator, character, file_contents))
                 else:
                     errors = True
                     print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
@@ -220,6 +189,47 @@ def handle_ineq(index : int, iterator : enumerate[str], character:str, stream : 
             else:
                 next(iterator)
                 return "GREATER_EQUAL >= null"
+            
+#handle numbers
+def handle_num(index : int, iterator : enumerate[str], character : str, stream : str)->str:
+    decimal : bool = False
+    num_arr : list[str]= []
+    in_number : bool = True
+    next_char : str = ''
+
+    if not character.isdigit():
+        return ""
+    else:
+        while in_number:
+            num_arr.append(character)
+            if is_next(index, stream):
+                next_char = stream[index + 1]
+                if next_char == '.' and decimal:
+                    in_number = False
+                elif next_char == '.' and not decimal:
+                    if stream[index + 2].isdigit():
+                        _next = next(iterator,(len(stream),'')) 
+                        character = _next[1]
+                        index = _next[0]
+                        decimal = True
+                    else:
+                        in_number = False
+                elif next_char.isdigit():
+                    _next = next(iterator,(len(stream),'')) 
+                    character  = _next[1]
+                    index = _next[0]
+                else:
+                    in_number = False
+            else:
+                in_number = False
+
+        if decimal:
+            number : str = ''.join(num_arr)
+            return "NUMBER "+number+" "+number
+        else:
+            number : str = ''.join(num_arr)
+            return "NUMBER "+number+" "+number+".0"
+
 
 
 def is_literal(character : str) -> bool:
