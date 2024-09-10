@@ -67,10 +67,14 @@ def main():
                 index : int       = token[0]
                 
                 if character == '_' or character.isalpha():
-                    print(handle_identifier(index, iterator, character, file_contents))
+                    identifier : str = handle_identifier(index, iterator, character, file_contents)
+                    if is_reserved(identifier):
+                        print(f"{identifier.upper()} {identifier} null")
+                    else:
+                        print(f"IDENTIFIER {identifier} null")
                 elif character == '\n':
                     line += 1
-                elif not identifier_open and (character == '\t' or character == ' '):
+                elif character == '\t' or character == ' ':
                     continue
                 elif is_simple_literal(character):
                     print(f"{get_token_type(character)} {character} null")
@@ -294,7 +298,47 @@ def handle_identifier(index : int, iterator : enumerate[str], character : str, s
                 in_identifier = False
 
     string: str = ''.join(identifier_arr)
-    return f"IDENTIFIER {string} null"
+    return string
+
+
+
+#check if reserved word
+def is_reserved(word : str)->bool:
+    match word:
+        case "and":
+            return True
+        case "class":
+            return True
+        case "else":
+            return True
+        case "false":
+            return True
+        case "for":
+            return True
+        case "fun":
+            return True
+        case "if":
+            return True
+        case "nil":
+            return True
+        case "or":
+            return True
+        case "print":
+            return True
+        case "return":
+            return True
+        case "super":
+            return True
+        case "this":
+            return True
+        case "true":
+            return True
+        case "var":
+            return True
+        case "while":
+            return True
+        case _:
+            return False
 
 
 def is_literal(character : str) -> bool:
