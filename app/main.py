@@ -65,10 +65,8 @@ def main():
             else:
                 character : str = token[1]
                 index : int       = token[0]
-
-                if string_open and character !='"':
-                    string_array.append(character)
-                elif character == '_' or character.isalpha():
+                
+                if character == '_' or character.isalpha():
                     identifier_array.append(character)
                     if index+1 < len(file_contents):
                         next_char:str = file_contents[index+1]
@@ -85,8 +83,6 @@ def main():
                     continue
                 elif is_simple_literal(character):
                     print(f"{get_token_type(character)} {character} null")
-                elif character == '.' and not number_open:
-                    print('DOT . null')
                 elif character == '=':
                     print(handle_eq_literal(index, iterator, file_contents))
                 elif character == '!':
@@ -108,22 +104,19 @@ def main():
                             character = item[1]
                         line += 1
                 elif character == '"':
-                    if string_open:
-                        string_open = False
-                        string : str = "".join(string_array)
-                        print(f"STRING \"{string}\" {string}")
-                        string_array.clear()
+                    string_ret : tuple[str,int,int] = handle_string(index, iterator, character, file_contents)
+                    line :int                       = line + string_ret[2]
+                    
+                    if string_ret[1] == 0:
+                        print(string_ret[0])
                     else:
-                        string_open = True
+                        print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
+                        errors = True            
                 elif character.isdigit():
                     print(handle_num(index, iterator, character, file_contents))
                 else:
                     errors = True
                     print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
-
-        if string_open:
-            print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
-            errors = True
 
     print("EOF  null")
 
@@ -190,7 +183,7 @@ def handle_ineq(index : int, iterator : enumerate[str], character:str, stream : 
                 next(iterator)
                 return "GREATER_EQUAL >= null"
             
-#handle numbers
+#handle numbers - RETURN : [ string, error_code(0,1), (count \n) ]
 def handle_num(index : int, iterator : enumerate[str], character : str, stream : str)->str:
     decimal : bool = False
     num_arr : list[str]= []
@@ -230,6 +223,43 @@ def handle_num(index : int, iterator : enumerate[str], character : str, stream :
             number : str = ''.join(num_arr)
             return "NUMBER "+number+" "+number+".0"
 
+#handle strings
+def handle_string(index : int, iterator : enumerate[str], character : str, stream : str)->tuple[str,int, int]:
+    in_string : bool        = True
+    string_arr : list[str]  = []
+    error : bool            = False
+    line : int              = 0
+    
+    if not character == '"':
+        return (f"FUNCTION handle_string() CALLED WITH INVALID ARGUMENT : {character}", 1, 0)
+    else:
+        if not is_next(index, stream):
+            # line -> "[EOF]
+            return ("",1, 0)
+        else:
+            while in_string:
+                _next : tuple[int,str]  = next(iterator, (len(stream),""))
+                
+                character         = _next[1]
+                index             = _next[0]
+
+                if index == len(stream):
+                    #end of file without terminating string
+                    in_string = False
+                    error = True
+                else:
+                    if character == '"':
+                        in_string = False
+                    else:
+                        string_arr.append(character)
+                        if character == '\n':
+                            line += 1
+
+    if error:
+        return ("",1,0)
+    else:
+        string : str = ''.join(string_arr)
+        return (f"STRING \"{string}\" {string}", 0, line)
 
 
 def is_literal(character : str) -> bool:
@@ -285,6 +315,8 @@ def is_simple_literal(character : str)->bool:
         case '-':
             return True
         case ';':
+            return True
+        case '.':
             return True
     return False
 
