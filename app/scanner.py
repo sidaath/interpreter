@@ -13,6 +13,9 @@ class Tokenizer:
             #track line number in loop
             line : int = 1
 
+            #validity of current '/' token while tokenizing
+            slash_operator_valid : bool = True
+
             iterator = enumerate(file_contents)
 
             tokenize : bool = True
@@ -72,6 +75,8 @@ class Tokenizer:
                     else:
                         errors = True
                         print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
+            print("EOF  null")
+        else:
             print("EOF  null")
         return errors
 
@@ -174,7 +179,7 @@ class Tokenizer:
                 while n > 0:
                     if num_arr[n] == '0':
                         num_arr.pop()
-                        n = -1
+                        n = n-1
                     elif num_arr[n] == '.':
                         num_arr.append('0')
                         n = 0

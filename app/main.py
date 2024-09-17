@@ -1,5 +1,5 @@
 import sys
-import scanner
+from app.scanner import Tokenizer
 
 def main():
     # You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -16,7 +16,7 @@ def main():
         print(f"Unknown command: {command}", file=sys.stderr)
         exit(1)
 
-    x = scanner.Tokenizer()
+    x = Tokenizer()
     errors: bool = x.tokenize(filename=filename)
 
 
