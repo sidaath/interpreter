@@ -16,9 +16,11 @@ def main():
         print(f"Unknown command: {command}", file=sys.stderr)
         exit(1)
 
-    x = Tokenizer()
-    errors: bool = x.tokenize(filename=filename)
-
+    tokenizer = Tokenizer()
+    errors: bool = tokenizer.tokenize(filename=filename)
+    
+    for token in tokenizer.tokens:
+        print(token)
 
     if errors:
         exit(65)

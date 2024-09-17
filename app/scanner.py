@@ -2,6 +2,7 @@ import sys
 
 class Tokenizer:
     """Class to handle tokenization"""
+    tokens : list[str] = []
 
     def tokenize(self, filename : str) -> bool:
         with open(filename) as file:
@@ -32,29 +33,29 @@ class Tokenizer:
                     if character == '_' or character.isalpha():
                         identifier : str = self.handle_identifier(index, iterator, character, file_contents)
                         if self.is_reserved(identifier):
-                            print(f"{identifier.upper()} {identifier} null")
+                            self.tokens.append(f"{identifier.upper()} {identifier} null")
                         else:
-                            print(f"IDENTIFIER {identifier} null")
+                            self.tokens.append(f"IDENTIFIER {identifier} null")
                     elif character == '\n':
                         line += 1
                     elif character == '\t' or character == ' ':
                         continue
                     elif self.is_simple_literal(character):
-                        print(f"{self.get_token_type(character)} {character} null")
+                        self.tokens.append(f"{self.get_token_type(character)} {character} null")
                     elif character == '=':
-                        print(self.handle_eq_literal(index, iterator, file_contents))
+                        self.tokens.append(self.handle_eq_literal(index, iterator, file_contents))
                     elif character == '!':
-                        print(self.handle_bang_literal(index, iterator, file_contents))
+                        self.tokens.append(self.handle_bang_literal(index, iterator, file_contents))
                     elif character == '<':
-                        print(self.handle_ineq(index, iterator, character, file_contents))
+                        self.tokens.append(self.handle_ineq(index, iterator, character, file_contents))
                     elif character == '>':
-                        print(self.handle_ineq(index, iterator, character, file_contents))
+                        self.tokens.append(self.handle_ineq(index, iterator, character, file_contents))
                     elif character == '/':
                         if slash_operator_valid:
                             if index+1 < len(file_contents) and file_contents[index+1] =='/':
                                 slash_operator_valid = False
                             else:
-                                print('SLASH / null')
+                                self.tokens.append('SLASH / null')
                         else:
                             #second '/', rest of line is a comment, stop reading line (skip line when scanning multi lines)
                             while character != '\n':
@@ -66,18 +67,18 @@ class Tokenizer:
                         line :int                       = line + string_ret[2]
                         
                         if string_ret[1] == 0:
-                            print(string_ret[0])
+                            self.tokens.append(string_ret[0])
                         else:
                             print(f'[line {line}] Error: Unterminated string.', file=sys.stderr)
                             errors = True            
                     elif character.isdigit():
-                        print(self.handle_num(index, iterator, character, file_contents))
+                        self.tokens.append(self.handle_num(index, iterator, character, file_contents))
                     else:
                         errors = True
                         print(f"[line {line}] Error: Unexpected character: {character}", file=sys.stderr)
-            print("EOF  null")
+            self.tokens.append("EOF  null")
         else:
-            print("EOF  null")
+            self.tokens.append("EOF  null")
         return errors
 
 
